@@ -14,7 +14,6 @@ const createList = async (req, res) => {
     const list = {
         name: req.body.name,
         flashcardIds: req.body.flashcardIds,
-        createdAt: req.body.createdAt
     }
 
     try {

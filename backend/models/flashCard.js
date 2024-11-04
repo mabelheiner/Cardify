@@ -9,7 +9,7 @@ const cardSchema = mongoose.Schema({
         type: String,
         required: true
     }
-})
+}, {timestamps: true})
 
 const Card = mongoose.model('flashCard', cardSchema)
 

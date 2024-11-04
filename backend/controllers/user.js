@@ -19,9 +19,9 @@ const getUser = async (req, res) => {
 
 const createUser = async (req, res) => {
     const passwordHash = await hashPassword(req.body.password)
-    const compareHash = "test";
+    /* const compareHash = "test";
     const match = await bcrypt.compare(compareHash, passwordHash)
-    console.log('passwordHash match', match)
+    console.log('passwordHash match', match) */
     const user = {
         username: req.body.username,
         email: req.body.email,
