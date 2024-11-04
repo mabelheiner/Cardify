@@ -27,13 +27,16 @@ const createCard = async (req, res) => {
 }
 
 const updateCard = async (req, res) => {
+    //console.log('Req received', req.body)
+    //console.log('Req.body.term', req.body.term)
+    console.log('id', req.params.id)
     const card = {
         term: req.body.term,
         definition: req.body.definition
     }
 
     try {
-        const updatedCard = Card.findByIdAndUpdate(req.params.id, card, {new: true})
+        const updatedCard = await Card.findByIdAndUpdate(req.params.id, card)
         res.json(updatedCard)
     } catch (error) {
         res.json(error)
@@ -42,8 +45,8 @@ const updateCard = async (req, res) => {
 
 const deleteCard = async (req, res) => {
     try {
-        const deletedCard = Card.findByIdAndDelete(req.params.id)
-        res.json(deletedCard)
+        const deletedCard = await Card.findByIdAndDelete(req.params.id)
+        res.json('Card deleted')
     } catch (error) {
         res.json(error)
     }

@@ -1,4 +1,11 @@
 const User = require('../models/user')
+const bcrypt = require('bcrypt')
+
+const hashPassword = async (originalPassword) => {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(originalPassword, saltRounds);
+    return hashedPassword
+}
 
 const getAll = async (req, res) => {
     const users = await User.find();
@@ -11,11 +18,14 @@ const getUser = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
+    const passwordHash = await hashPassword(req.body.password)
+    const compareHash = "test";
+    const match = await bcrypt.compare(compareHash, passwordHash)
+    console.log('passwordHash match', match)
     const user = {
         username: req.body.username,
         email: req.body.email,
-        passwordHash: req.body.passwordHash,
-        flashCardListIds : req.body.flashCardListIds
+        passwordHash: passwordHash,
     }
 
     const newUser = new User(user);
@@ -24,10 +34,11 @@ const createUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
+    const passwordHash = await hashPassword(req.body.password)
     const user = {
         username: req.body.username,
         email: req.body.email,
-        passwordHash: req.body.passwordHash,
+        passwordHash: passwordHash,
         flashCardListIds: req.body.flashCardListIds
     }
 
@@ -42,7 +53,7 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
-    res.json(deletedUser)
+    res.json('User deleted')
 }
 
 module.exports = {

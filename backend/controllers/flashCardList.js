@@ -12,7 +12,9 @@ const getList = async (req, res) => {
 
 const createList = async (req, res) => {
     const list = {
-        flashcardIds: req.body.flashcardIds
+        name: req.body.name,
+        flashcardIds: req.body.flashcardIds,
+        createdAt: req.body.createdAt
     }
 
     try {
@@ -30,7 +32,7 @@ const updateList = async (req, res) => {
     }
 
     try {
-        const updatedList = FlashCardList.findByIdAndUpdate(req.params.id, list, {new: true})
+        const updatedList = await FlashCardList.findByIdAndUpdate(req.params.id, list, {new: true})
         res.json(updatedList)
     } catch (error) {
         res.json(error)        
@@ -39,8 +41,8 @@ const updateList = async (req, res) => {
 
 const deletList = async (req, res) => {
     try {
-        const deletedList = FlashCardList.findByIdAndDelete(req.params.id)
-        res.json(deletedList)
+        const deletedList = await FlashCardList.findByIdAndDelete(req.params.id)
+        res.json('List deleted')
     } catch (error) {
         res.json(error)
     }
