@@ -17,6 +17,32 @@ const getUser = async (req, res) => {
     res.json(user);
 }
 
+
+const login = async (req, res) => {
+    console.log('Req body', req.body)
+    try {
+        const response = await User.findOne({email: req.body.email})
+        console.log("Account found", response)
+
+        if (response) {
+            const match = await bcrypt.compare(req.body.password, response.passwordHash)
+            console.log('Match', match)
+            if (match == true) {
+                return res.status(200).json({response})
+            }
+            else {
+                return res.status(401).json({response})
+            }
+        }
+        else {
+            console.log('Response is ', response)
+            return res.status(401).json({message: 'Account not found'})
+        }
+    } catch (error) {
+        console.log('Account not found')
+    }
+}
+
 const createUser = async (req, res) => {
     const passwordHash = await hashPassword(req.body.password)
     /* const compareHash = "test";
@@ -59,6 +85,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
     getAll,
     getUser,
+    login,
     createUser,
     updateUser,
     deleteUser
