@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useContext(UserContext);
-  const [message, setMessage] = useState('hello')
+  const [message, setMessage] = useState('')
 
   const navigate = useNavigate();
 
@@ -22,6 +22,7 @@ const Login = () => {
       const response = await loginUser(email, password)
       if (response.status != 401) {
         setUser(response)
+        sessionStorage.setItem('user', JSON.stringify(response))
         navigate('/')
       } else {
         setMessage('Login failed, likely due to invalid credentials. Please try again.')

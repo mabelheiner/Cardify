@@ -13,6 +13,14 @@ function App() {
 
   useEffect(() => {
     console.log('user changed', currentUser)
+    if (currentUser == null) {
+      try {
+        const sessionUser = sessionStorage.getItem('user')
+        setCurrentUser(sessionUser)
+      } catch (error) {
+        console.log('Error')
+      }
+    }
   }, [currentUser])
 
   return (
