@@ -44,3 +44,19 @@ export const signupUser = async (username, password, email) => {
     }
 
 }
+
+export const getUserById = async (userId) => {
+    console.log('userid in getting user', userId)
+    try {
+        const response = await axios.get(`http://localhost:5000/users/${userId}`, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        console.log('Response from getting user by id', response)
+        return response
+    } catch (error) {
+        console.log('Error', error)
+        return error
+    }
+}

@@ -5,6 +5,7 @@ import Lists from './Lists'
 import SignUp from './SignUp'
 import Login from './Login'
 import { createContext, useState, useEffect } from 'react'
+import { getUserById } from './StateManagement/CustomerState'
 
 export const UserContext = createContext()
 
@@ -12,15 +13,30 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null)
 
   useEffect(() => {
-    console.log('user changed', currentUser)
-    if (currentUser == null) {
-      try {
-        const sessionUser = sessionStorage.getItem('user')
-        setCurrentUser(sessionUser)
-      } catch (error) {
-        console.log('Error')
+    const fetchUser = async () => {
+      console.log('user changed', currentUser)
+      if (currentUser == null) {
+        try {
+          //check if there is a userId in storage
+          const sessionUserId = JSON.parse(sessionStorage.getItem('userId'))
+          console.log('user in app', sessionUserId)
+
+          //once I have an id I am going to get the user by Id
+          const response = await getUserById(sessionUserId)
+          console.log('Response from getting the user by id in app.jsx', response)
+
+          if (response.status == 200) {
+            setCurrentUser(response.data)
+          } else {
+            console.log('Error, response status not 200')
+          }
+          
+        } catch (error) {
+          console.error('Error', error)
+        }
       }
     }
+    fetchUser()
   }, [currentUser])
 
   return (
