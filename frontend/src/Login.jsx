@@ -22,7 +22,8 @@ const Login = () => {
       const response = await loginUser(email, password)
       if (response.status != 401) {
         setUser(response)
-        sessionStorage.setItem('userId', JSON.stringify(response._id))
+        //sessionStorage.setItem('userId', JSON.stringify(response._id))
+        localStorage.setItem('userId', JSON.stringify(response._id))
         navigate('/')
       } else {
         setMessage('Login failed, likely due to invalid credentials. Please try again.')

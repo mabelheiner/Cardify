@@ -5,6 +5,10 @@ const flashCardListSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    description: {
+        type: String,
+        required: true
+    },
     flashcardIds: {
         type: [String],
         default: [],

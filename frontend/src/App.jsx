@@ -4,6 +4,7 @@ import Home from './Home'
 import Lists from './Lists'
 import SignUp from './SignUp'
 import Login from './Login'
+import CreateList from './CreateList'
 import { createContext, useState, useEffect } from 'react'
 import { getUserById } from './StateManagement/CustomerState'
 
@@ -18,7 +19,8 @@ function App() {
       if (currentUser == null) {
         try {
           //check if there is a userId in storage
-          const sessionUserId = JSON.parse(sessionStorage.getItem('userId'))
+          //const sessionUserId = JSON.parse(sessionStorage.getItem('userId'))
+          const sessionUserId = JSON.parse(localStorage.getItem('userId'))
           console.log('user in app', sessionUserId)
 
           //once I have an id I am going to get the user by Id
@@ -47,6 +49,7 @@ function App() {
         <Route path='/lists' element={<Lists />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/create-list' element={<CreateList />} />
       </Routes>
       </UserContext.Provider>
     </BrowserRouter>

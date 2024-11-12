@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { UserContext } from './App'
 import { getUserById } from './StateManagement/CustomerState'
 
 const Lists = () => {
   const [user, setUser] = useContext(UserContext)
+  const [flashCardListsIds, setFlashCardListsIds] = useState(null)
   const [flashCardLists, setFlashCardLists] = useState(null)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user != null) {
       try {
-        setFlashCardLists(user.flashCardListsIds)
+        setFlashCardListsIds(user.flashCardListsIds)
         console.log('Flash card ids', user.flashCardListIds)
       } catch (error) {
         console.log('Error', error)
@@ -20,26 +24,18 @@ const Lists = () => {
   }, [user])
 
   useEffect(() => {
-    /* const fetchUser = async () => {
-      console.log('User in lists', user)
-      if (user == null) {
-        try {    
-          const userId = JSON.parse(sessionStorage.getItem('user'))
-          const response = await getUserById(userId)
-          console.log('Response from fetching the user via sessionStorage', response)
-        } catch (error) {
-          console.error('Error', error)
-        }
-      }
+    const fetchLists = async () => {
+      console.log('API CALL to fetch lists here')
+      console.log('current flashcardlistsIds', flashCardListsIds)
     }
-    fetchUser() */
-    console.log('user in lists', user)
-  }, [user])
+
+    fetchLists()
+  }, [flashCardListsIds])
   return (
     <div>
       <h1>lists</h1>
       <section className='list-section' style={{display: 'flex', flexWrap: 'wrap'}}>
-        <article className='list-card' style={{flexDirection: 'column', border: '1px solid darkgreen', }}>
+        <article className='list-card' style={{flexDirection: 'column', border: '1px solid darkgreen', }} onClick={() => navigate('/create-list')}>
           <h1> + </h1>
           <p>Add New List</p>
         </article>        

@@ -13,6 +13,7 @@ const getList = async (req, res) => {
 const createList = async (req, res) => {
     const list = {
         name: req.body.name,
+        description: req.body.description,
         flashcardIds: req.body.flashcardIds,
     }
 
@@ -27,6 +28,8 @@ const createList = async (req, res) => {
 
 const updateList = async (req, res) => {
     const list = {
+        name: req.body.name,
+        description: req.body.description,
         flashcardIds: req.body.flashcardIds
     }
 
