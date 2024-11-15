@@ -60,21 +60,26 @@ const createUser = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    const passwordHash = await hashPassword(req.body.password)
+    console.log('Update user', req.body)
+
     const user = {
         username: req.body.username,
         email: req.body.email,
-        passwordHash: passwordHash,
         flashCardListIds: req.body.flashCardListIds
     }
 
+
+    if (req.body.password != undefined) {
+        const passwordHash = await hashPassword(req.body.password)
+        user['passwordHash'] = passwordHash
+    }
+    
     try {
         const updatedUser = await User.findByIdAndUpdate(req.params.id, user, {new: true});
         res.json(updatedUser)
     } catch (error) {
         res.json(error)
     }
-    
 }
 
 const deleteUser = async (req, res) => {

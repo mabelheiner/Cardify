@@ -50,6 +50,7 @@ const deletList = async (req, res) => {
     }
 }
 
+
 module.exports = {
     getAll,
     getList,

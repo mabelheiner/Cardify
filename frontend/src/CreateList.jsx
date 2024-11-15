@@ -1,10 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Header from './Header'
 import { useNavigate } from 'react-router-dom'
+import { addList } from './StateManagement/FlashCardListState'
+import { UserContext } from './App'
+import { getUserById, updateUserFlashCardLists } from './StateManagement/CustomerState'
 
 const CreateList = () => {
   const [listName, setListName] = useState("")
   const [listDescription, setListDescription] = useState("")
+
+  const [user, setUser] = useContext(UserContext)
 
   const [message, setMessage] = useState(null)
 
@@ -12,12 +17,24 @@ const CreateList = () => {
 
   async function handleCreateList(e) {
     e.preventDefault()
-    console.log('form submitted')
 
-    if (listName.length != 0 || listDescription.length != 0) {
-        console.log('Ready to add list')
+    if (listName.trim() !== "" || listDescription.trim() !== "") {
+        const list = {
+          name: listName,
+          description: listDescription
+        }
+        const response = await addList(list)
+        console.log('Response', response)
+        console.log('Response in create list', response)
+        console.log('user lists', user.flashCardListIds)
+        user.flashCardListIds.push(response._id)
+        console.log('Lists being sent', user.flashCardListIds)
+        const updatedUser = await updateUserFlashCardLists(user._id, user.flashCardListIds)
+        console.log('UPDATE USER', updatedUser)
+        setUser(updatedUser)
+        //console.log('user', user)
+        navigate('/')
     } else {
-        console.log('The forms only have spaces and are not ready to be submitted')
         setMessage("Please fill all fields with valid data to create the list.")
         return
     }
